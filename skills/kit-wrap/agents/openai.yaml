@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-wrap"
+  short_description: "제출물 대조·인계 문서·인수자 질문"
+policy:
+  allow_implicit_invocation: false

@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-frame"
+  short_description: "과제 정의: 요구·함정·담당자 질문·합의"
+policy:
+  allow_implicit_invocation: false

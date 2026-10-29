@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-build"
+  short_description: "구간 하나 구현·확인·커밋"
+policy:
+  allow_implicit_invocation: false
