@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""기록·제출물 점검 (kit v2.2 lite,표준 라이브러리만 사용, 파일을 고치지 않음).
+"""기록·제출물 점검 (kit v2.3, 표준 라이브러리만 사용, 파일을 고치지 않음).
 
 사용: python3 ~/kit/bin/check.py [과제 폴더, 기본=현재 폴더]
 종료 코드: 0 문제 없음 / 1 경고 있음 / 2 점검할 대상이 없음
@@ -148,6 +148,9 @@ if os.path.exists(st_path):
         info.append("REVIEW_NOTES 영향 숫자가 비어 있음 (kit-wrap에서 채움)")
 elif done_stages:
     warn.append("REVIEW_NOTES.md 없음 (검토 질문·바로잡은 이해를 남길 곳)")
+
+if done_stages and not os.path.exists(os.path.join(root, "GUIDE.md")):
+    info.append("GUIDE.md 없음: kit-wrap에서 만들고 제출 직전에 읽기")
 
 # 4. 남은 자리표시·TODO
 pat = re.compile(r"\b(TODO|FIXME|TBD|XXX)\b|<커밋 해시>|자리표시|__분")
