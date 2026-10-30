@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""기록·제출물 점검 (kit v2, 표준 라이브러리만 사용, 파일을 고치지 않음).
+"""기록·제출물 점검 (kit v2.2 lite,표준 라이브러리만 사용, 파일을 고치지 않음).
 
 사용: python3 ~/kit/bin/check.py [과제 폴더, 기본=현재 폴더]
 종료 코드: 0 문제 없음 / 1 경고 있음 / 2 점검할 대상이 없음
@@ -71,6 +71,10 @@ if os.path.exists(wl):
     else:
         info.append(f"WORKLOG.md {n_lines}줄")
 
+    m_src = re.search(r"^- 사용 자료:(.*)$", text, re.M)
+    if m_src and not re.search(r"\b[0-9a-f]{7,40}\b", m_src.group(1)):
+        warn.append("WORKLOG 사용 자료 칸에 kit 커밋 해시가 없음 (git -C ~/kit rev-parse HEAD)")
+
     for title in ("합의", "동작 흐름"):
         body = section(text, title)
         if body is not None and not filled(body):
@@ -125,19 +129,25 @@ else:
 st_path = os.path.join(root, "STUDY.md")
 if os.path.exists(st_path):
     st = strip_comments(read(st_path))
-    studied = set(re.findall(r"^## (S\d+)", st, re.M))
-    missing = [s for s in done_stages if s not in studied]
-    if missing:
-        warn.append(f"STUDY.md에 이해 보고가 없는 완료 단계: {', '.join(missing)}")
-    n_unanswered = len(re.findall(r"미답", st))
-    if n_unanswered:
-        info.append(f"STUDY 미답 질문 {n_unanswered}개: kit-wrap 리허설에서 다시 답하기")
+    bank = section(st, "서술형 질문 은행") or ""
+    bank_rows = [[c.strip() for c in l.strip().strip("|").split("|")]
+                 for l in bank.splitlines() if re.match(r"^\|\s*\d+\s*\|", l)]
+    if bank_rows:
+        no_concl = [r[0] for r in bank_rows if len(r) > 3 and not r[3]]
+        no_mat = [r[0] for r in bank_rows if len(r) > 4 and not r[4]]
+        info.append(f"질문 은행 {len(bank_rows)}개: 내 결론 빈칸 {len(no_concl)}개, 근거 재료 빈칸 {len(no_mat)}개")
+        if done_stages and len(no_concl) == len(bank_rows):
+            warn.append("질문 은행 '내 결론'이 하나도 없음: 결론 한 줄은 직접 쓰기 (#" + ",#".join(no_concl[:5]) + " …)")
+    wrong = section(st, "내가 틀렸던 것") or ""
+    n_wrong = len([l for l in wrong.splitlines() if l.startswith("|") and not re.match(r"^\|[\s|:-]*\|$", l)]) - 1
+    if n_wrong > 0:
+        info.append(f"'내가 틀렸던 것' {n_wrong}건: 제출 직전 다시 읽기, wrap 리허설에서 다시 답하기")
     card = section(st, "숫자 카드") or ""
     rows = [l for l in card.splitlines() if l.startswith("|") and not re.match(r"^\|[\s|:-]*\|$", l)]
     if len(rows) <= 1:
         info.append("STUDY 숫자 카드가 비어 있음 (kit-wrap에서 채움)")
 elif done_stages:
-    warn.append("STUDY.md 없음 (단계 이해 보고를 남길 곳)")
+    warn.append("STUDY.md 없음 (질문 은행·내가 틀렸던 것을 남길 곳)")
 
 # 4. 남은 자리표시·TODO
 pat = re.compile(r"\b(TODO|FIXME|TBD|XXX)\b|<커밋 해시>|자리표시|__분")
