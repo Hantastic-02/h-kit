@@ -2,7 +2,7 @@
 
 ## clone 전에 외울 것
 ```
-git clone --depth 1 <https://github.com/Hantastic-02/h-kit> ~/kit && bash ~/kit/setup.sh     # 작업 폴더에서 실행
+git clone --depth 1 https://github.com/Hantastic-02/h-kit.git ~/kit && bash ~/kit/setup.sh     # 작업 폴더에서 실행
 ```
 clone이 3분 안에 안 되면 포기(브라우저로 GitHub 열지 않기) → codex에 5줄 입력:
 ```
