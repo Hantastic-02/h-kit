@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-review"
-  short_description: "새 세션에서 기록과 구현을 독립 검토"
+  short_description: "새 세션에서 따로 계산해 독립 검토"
 policy:
   allow_implicit_invocation: false

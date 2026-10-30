@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-plan"
+  short_description: "합의와 단계별 PLAN 체크리스트"
+policy:
+  allow_implicit_invocation: false

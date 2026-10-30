@@ -4,7 +4,7 @@
 set -u
 KIT="$(cd "$(dirname "$0")" && pwd)"
 TASK="$(pwd)"
-echo "[setup] kit: $KIT @ $(git -C "$KIT" rev-parse --short HEAD 2>/dev/null || echo '?')"
+echo "[setup] kit v2: $KIT @ $(git -C "$KIT" rev-parse --short HEAD 2>/dev/null || echo '?')"
 echo "[setup] 작업 폴더: $TASK"
 
 case "$KIT/" in "$TASK"/*) echo "[setup] 주의: kit이 작업 폴더 안에 있음. 작업 폴더 밖(~/kit)에 받는 것을 권장";; esac
@@ -13,7 +13,7 @@ mkdir -p "$HOME/.agents/skills" 2>/dev/null
 for s in "$KIT"/skills/*/; do
   name="$(basename "$s")"
   if [ -e "$HOME/.agents/skills/$name" ]; then
-    echo "[setup] 스킬 있음(건너뜀): $name"
+    echo "[setup] 스킬 있음(건너뜀): $name  ← v1이 남아 있으면 지우고 다시 설치"
   elif cp -r "$s" "$HOME/.agents/skills/$name" 2>/dev/null; then
     echo "[setup] 스킬 설치: $name"
   else
@@ -28,12 +28,15 @@ else
   cp "$KIT/AGENTS.md" "$TASK/AGENTS.md" && echo "[setup] AGENTS.md 복사"
 fi
 
-if [ -e "$TASK/WORKLOG.md" ]; then
-  echo "[setup] WORKLOG.md 있음(건너뜀)"
-else
-  cp "$KIT/templates/WORKLOG.md" "$TASK/WORKLOG.md" && echo "[setup] WORKLOG.md 복사"
-fi
+for f in WORKLOG.md STUDY.md; do
+  if [ -e "$TASK/$f" ]; then
+    echo "[setup] $f 있음(건너뜀)"
+  else
+    cp "$KIT/templates/$f" "$TASK/$f" && echo "[setup] $f 복사"
+  fi
+done
 
 command -v python3 >/dev/null && echo "[setup] python3: $(python3 -V 2>&1)" || echo "[setup] python3 없음 → check.py 대신 CARD의 수동 점검"
 git -C "$TASK" rev-parse --is-inside-work-tree >/dev/null 2>&1 && echo "[setup] git 저장소: 예" || echo "[setup] git 저장소 아님 → 과제 안내 확인 후 git init"
+echo "[setup] 렌즈: $(ls "$KIT/lenses" | tr '\n' ' ')"
 echo "[setup] 끝. codex를 새로 시작하세요 (AGENTS.md는 시작할 때 읽힘)."

@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-wrap"
-  short_description: "제출물 대조·인계 문서·인수자 질문"
+  short_description: "인계·숫자 카드·서술형 리허설"
 policy:
   allow_implicit_invocation: false

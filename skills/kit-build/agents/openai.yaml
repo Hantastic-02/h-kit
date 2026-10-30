@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-build"
-  short_description: "구간 하나 구현·확인·커밋"
+  short_description: "PLAN 한 단계 구현·확인·이해 보고"
 policy:
   allow_implicit_invocation: false
