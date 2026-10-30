@@ -28,7 +28,7 @@ else
   cp "$KIT/AGENTS.md" "$TASK/AGENTS.md" && echo "[setup] AGENTS.md 복사"
 fi
 
-for f in WORKLOG.md STUDY.md; do
+for f in WORKLOG.md REVIEW_NOTES.md; do
   if [ -e "$TASK/$f" ]; then
     echo "[setup] $f 있음(건너뜀)"
   else
@@ -39,4 +39,5 @@ done
 command -v python3 >/dev/null && echo "[setup] python3: $(python3 -V 2>&1)" || echo "[setup] python3 없음 → check.py 대신 CARD의 수동 점검"
 git -C "$TASK" rev-parse --is-inside-work-tree >/dev/null 2>&1 && echo "[setup] git 저장소: 예" || echo "[setup] git 저장소 아님 → 과제 안내 확인 후 git init"
 echo "[setup] 렌즈: $(ls "$KIT/lenses" | tr '\n' ' ')"
+echo "[setup] 참고: 카드 ~/kit/CARD.md, 새 세션 검토 지시문 ~/kit/prompts/review.md"
 echo "[setup] 끝. codex를 새로 시작하세요 (AGENTS.md는 시작할 때 읽힘)."

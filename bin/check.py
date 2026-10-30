@@ -125,29 +125,29 @@ if os.path.exists(wl):
 else:
     warn.append("WORKLOG.md 없음 (과제 지정 문서를 쓰는 중이면 무시)")
 
-# 3. STUDY
-st_path = os.path.join(root, "STUDY.md")
+# 3. REVIEW_NOTES
+st_path = os.path.join(root, "REVIEW_NOTES.md")
 if os.path.exists(st_path):
     st = strip_comments(read(st_path))
-    bank = section(st, "서술형 질문 은행") or ""
+    bank = section(st, "검토 질문") or ""
     bank_rows = [[c.strip() for c in l.strip().strip("|").split("|")]
                  for l in bank.splitlines() if re.match(r"^\|\s*\d+\s*\|", l)]
     if bank_rows:
         no_concl = [r[0] for r in bank_rows if len(r) > 3 and not r[3]]
         no_mat = [r[0] for r in bank_rows if len(r) > 4 and not r[4]]
-        info.append(f"질문 은행 {len(bank_rows)}개: 내 결론 빈칸 {len(no_concl)}개, 근거 재료 빈칸 {len(no_mat)}개")
+        info.append(f"검토 질문 {len(bank_rows)}개: 내 판단 빈칸 {len(no_concl)}개, 근거 빈칸 {len(no_mat)}개")
         if done_stages and len(no_concl) == len(bank_rows):
-            warn.append("질문 은행 '내 결론'이 하나도 없음: 결론 한 줄은 직접 쓰기 (#" + ",#".join(no_concl[:5]) + " …)")
-    wrong = section(st, "내가 틀렸던 것") or ""
+            warn.append("검토 질문 '내 판단'이 하나도 없음: 판단 한 줄은 직접 쓰기 (#" + ",#".join(no_concl[:5]) + " …)")
+    wrong = section(st, "바로잡은 이해") or ""
     n_wrong = len([l for l in wrong.splitlines() if l.startswith("|") and not re.match(r"^\|[\s|:-]*\|$", l)]) - 1
     if n_wrong > 0:
-        info.append(f"'내가 틀렸던 것' {n_wrong}건: 제출 직전 다시 읽기, wrap 리허설에서 다시 답하기")
-    card = section(st, "숫자 카드") or ""
+        info.append(f"'바로잡은 이해' {n_wrong}건: 제출 직전 다시 읽기, wrap 리허설에서 다시 답하기")
+    card = section(st, "영향 숫자") or ""
     rows = [l for l in card.splitlines() if l.startswith("|") and not re.match(r"^\|[\s|:-]*\|$", l)]
     if len(rows) <= 1:
-        info.append("STUDY 숫자 카드가 비어 있음 (kit-wrap에서 채움)")
+        info.append("REVIEW_NOTES 영향 숫자가 비어 있음 (kit-wrap에서 채움)")
 elif done_stages:
-    warn.append("STUDY.md 없음 (질문 은행·내가 틀렸던 것을 남길 곳)")
+    warn.append("REVIEW_NOTES.md 없음 (검토 질문·바로잡은 이해를 남길 곳)")
 
 # 4. 남은 자리표시·TODO
 pat = re.compile(r"\b(TODO|FIXME|TBD|XXX)\b|<커밋 해시>|자리표시|__분")
