@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-explain"
+  short_description: "서술형 연습(내가 먼저 답)"
+policy:
+  allow_implicit_invocation: false
