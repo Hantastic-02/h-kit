@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-start"
-  short_description: "환경·문제 정의·담당자 질문"
+  short_description: "환경·자료·담당자 질문·문제 후보"
 policy:
   allow_implicit_invocation: false

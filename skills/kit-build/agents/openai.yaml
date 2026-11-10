@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-build"
-  short_description: "체크리스트를 끝까지 한 번에(자기 검토·문서 포함)"
+  short_description: "뼈대부터 끝까지(확인 지점 한 번)"
 policy:
   allow_implicit_invocation: false

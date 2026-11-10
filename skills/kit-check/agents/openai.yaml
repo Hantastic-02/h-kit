@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-check"
-  short_description: "병렬 독립 검토(읽기 전용)"
+  short_description: "독립 검토(읽기 전용)"
 policy:
   allow_implicit_invocation: false

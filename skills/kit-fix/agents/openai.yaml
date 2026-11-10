@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-fix"
-  short_description: "검토 메모를 모아 한 번에 수정"
+  short_description: "모아서 한 번에 수정"
 policy:
   allow_implicit_invocation: false

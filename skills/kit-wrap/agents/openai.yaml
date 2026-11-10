@@ -1,0 +1,5 @@
+interface:
+  display_name: "kit-wrap"
+  short_description: "재실행·문서 정합·제출 점검"
+policy:
+  allow_implicit_invocation: false

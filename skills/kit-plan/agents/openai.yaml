@@ -1,5 +1,5 @@
 interface:
   display_name: "kit-plan"
-  short_description: "빌드 체크리스트 만들기"
+  short_description: "합의·방법 선택·빌드 체크리스트"
 policy:
   allow_implicit_invocation: false
